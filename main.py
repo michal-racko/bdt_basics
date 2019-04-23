@@ -85,6 +85,6 @@ if __name__ == '__main__':
     print(
         ('\n=========== Results ===========\n'
          ' Signal event fraction\n'
-         ' x: %f.3' % x + '\n'
+         ' x: %.3f' % x + '\n'
          '===============================\n')
     )
