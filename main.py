@@ -7,6 +7,7 @@ from sklearn.model_selection import KFold
 
 from tools import prepare_signal_background, prepare_wXy, get_data_X, get_metrics
 from plotting import plot_sig_vs_bg, plot_decision_function, plot_data_decision_function
+from optimiser import Optimiser
 
 
 data_file = 'data/data.root'
@@ -21,7 +22,7 @@ variable_names = ['mll', 'dRll', 'pTll']
 plot_dir = 'plots'
 
 
-if __name__ == '__main__':
+def make_plots():
     signal, background = prepare_signal_background(
         data_file, signal_trees, background_trees, variable_names)
 
@@ -33,7 +34,9 @@ if __name__ == '__main__':
 
     w, X, y = prepare_wXy(signal, background, variable_names)
 
-    bdt = GradientBoostingClassifier()
+    bdt = GradientBoostingClassifier(learning_rate=0.08585714285714287,
+                                     max_depth=5,
+                                     loss='exponential')
 
     kf = KFold(n_splits=5)
 
@@ -88,3 +91,28 @@ if __name__ == '__main__':
          ' x: %.3f' % x + '\n'
          '===============================\n')
     )
+
+
+def optimise():
+    signal, background = prepare_signal_background(
+        data_file, signal_trees, background_trees, variable_names)
+
+    w, X, y = prepare_wXy(signal, background, variable_names)
+
+    hyperparameter_settings = {
+        'learning_rate': [0.001, 0.01]
+    }
+
+    optimiser = Optimiser(
+        GradientBoostingClassifier, X, y,
+        hyperparameter_settings=hyperparameter_settings,
+        fixed_hyperparameters={'max_depth': 8},
+        n_iterations=50
+    )
+
+    optimiser.run()
+
+
+if __name__ == '__main__':
+    optimise()
+    # make_plots()
