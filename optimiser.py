@@ -22,7 +22,7 @@ class Optimiser(object):
                  strategy='grid',
                  weights=None,
                  n_bins=20,
-                 n_splits=5,
+                 n_splits=3,
                  n_iterations=10,
                  output_path='optimisation_results.json'):
         """

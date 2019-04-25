@@ -34,11 +34,11 @@ def make_plots():
 
     w, X, y = prepare_wXy(signal, background, variable_names)
 
-    bdt = GradientBoostingClassifier(learning_rate=0.08585714285714287,
+    bdt = GradientBoostingClassifier(learning_rate=0.005,
                                      max_depth=5,
-                                     loss='exponential')
+                                     n_estimators=100)
 
-    kf = KFold(n_splits=5)
+    kf = KFold(n_splits=2)
 
     bdt_output = []
     classes = []
@@ -55,7 +55,6 @@ def make_plots():
         )
 
         classes.append(y_test)
-
         weights.append(w_test)
 
     bdt_output = np.concatenate(bdt_output)
@@ -106,8 +105,8 @@ def optimise():
     optimiser = Optimiser(
         GradientBoostingClassifier, X, y,
         hyperparameter_settings=hyperparameter_settings,
-        fixed_hyperparameters={'max_depth': 8},
-        n_iterations=50
+        fixed_hyperparameters={'max_depth': 8, 'loss': 'deviance'},
+        n_iterations=20
     )
 
     optimiser.run()

@@ -74,6 +74,15 @@ def prepare_wXy(signal, background, variables):
     y = np.zeros(len(X))
     y[:signal_len] = 1
 
+    np.random.seed(42)
+    np.random.shuffle(X)
+
+    np.random.seed(42)
+    np.random.shuffle(y)
+
+    np.random.seed(42)
+    np.random.shuffle(w)
+
     return w, X, y
 
 
