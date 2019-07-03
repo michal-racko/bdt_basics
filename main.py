@@ -113,5 +113,5 @@ def optimise():
 
 
 if __name__ == '__main__':
-    optimise()
-    # make_plots()
+    # optimise()
+    make_plots()
